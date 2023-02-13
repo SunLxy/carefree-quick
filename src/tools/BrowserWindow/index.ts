@@ -1,8 +1,6 @@
 import { BrowserWindow } from 'electron';
 // 创建 BrowserWindow 窗口集合
 export class BrowserWindowStore {
-  /** 自动更新地址 */
-  updaterUrl?: string;
   // 当前的win窗口
   win?: BrowserWindow;
   /** window 窗口 */
