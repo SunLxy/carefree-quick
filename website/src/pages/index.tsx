@@ -1,9 +1,14 @@
 import styled from 'styled-components';
+import List from '@/components/list';
 
 const IndexWarp = styled.div``;
 
 const Index = () => {
-  return <IndexWarp>入口文件</IndexWarp>;
+  return (
+    <IndexWarp>
+      <List dataList={[{ title: '', type: [], content: '' }]} />
+    </IndexWarp>
+  );
 };
 
 export default Index;
