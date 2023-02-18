@@ -1,20 +1,39 @@
 import React, { useContext, createContext, createElement } from 'react';
+import { getQuestionList } from '@/services';
+export interface Store {
+  /**列表数据*/
+  dataList?: any[];
+  /**当前页*/
+  page?: number;
+  /**每页数*/
+  pageSize?: number;
+  /**总数*/
+  total?: number;
+  /**题目类型*/
+  type?: string;
+  loading?: boolean;
+}
 
-const InitalStore: Store = {};
+const InitalStore: Store = {
+  dataList: [],
+  pageSize: 20,
+  page: 1,
+  total: 0,
+};
 interface ProviderProps {
   children: React.ReactNode;
 }
 
-export interface Store {}
-
 type StoreContextType = {
   store: Store;
   dispatch: React.Dispatch<Partial<Store>>;
+  getList: (params: Partial<Store>) => Promise<unknown>;
 };
 
 const StoreContext = createContext<StoreContextType>({
-  store: {},
+  store: { ...InitalStore },
   dispatch: () => null,
+  getList: async () => null,
 });
 
 export const reducer = (store: Partial<Store>, action: Partial<Store>) => {
@@ -28,8 +47,29 @@ export const useStore = () => useContext(StoreContext);
 export const Provider = (props: ProviderProps) => {
   const { children } = props;
   const [store, dispatch] = React.useReducer(reducer, { ...InitalStore });
+
+  /**列表查询**/
+  const getList = async (params: Partial<Store> = {}) => {
+    const newStore = { ...store, ...params };
+    const newParams = {
+      page: newStore.page || 1,
+      pageSize: newStore.pageSize || 20,
+      type: newStore.type,
+    };
+    dispatch({ ...newStore, loading: true });
+    try {
+      const result = await getQuestionList(newParams);
+      // 查询成功
+      if (result.code === 200) {
+        dispatch({ dataList: result.data.rows || [], total: result.data.total || 0, loading: false });
+      }
+    } catch (err) {
+      dispatch({ loading: false });
+    }
+  };
+
   return createElement(StoreContext.Provider, {
-    value: { store, dispatch },
+    value: { store, dispatch, getList },
     children,
   });
 };

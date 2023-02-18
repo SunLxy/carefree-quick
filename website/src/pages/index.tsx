@@ -1,4 +1,9 @@
+import styled from 'styled-components';
+
+const IndexWarp = styled.div``;
+
 const Index = () => {
-  return <div>入口文件</div>;
+  return <IndexWarp>入口文件</IndexWarp>;
 };
+
 export default Index;

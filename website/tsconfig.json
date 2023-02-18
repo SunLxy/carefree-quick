@@ -23,5 +23,5 @@
       "@@/*": ["./src/.kktp/*"]
     }
   },
-  "include": ["src", "config/.kktprc.ts"]
+  "include": ["src", ".kktprc.ts"]
 }
