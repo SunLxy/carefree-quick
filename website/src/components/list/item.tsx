@@ -6,6 +6,9 @@ const ListItemWarp = styled.div`
   border: 1px solid #eee;
   border-radius: 5px;
   overflow: hidden;
+  & + & {
+    margin-top: 15px;
+  }
 `;
 const ListItemTitle = styled.div`
   width: 100%;

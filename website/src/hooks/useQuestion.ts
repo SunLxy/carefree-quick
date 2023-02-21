@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { QuestionItemType, ListItemType } from '../interface';
+import { AnswerItemType, ListItemType } from '../interface';
 
 import { getAnswerList, getQuestionInfo, createQuestion, createAnswer } from '@/services';
 import { useState } from 'react';
@@ -7,8 +7,8 @@ import { useState } from 'react';
 export const useQuestion = () => {
   const params = useParams<{ id: string }>();
   const [info, setInfo] = useState<Partial<ListItemType>>({});
-  const [answer, setAnswer] = useState<Partial<QuestionItemType>>({});
-  const [answerList, setAnswerList] = useState<QuestionItemType[]>([]);
+  const [answer, setAnswer] = useState<Partial<AnswerItemType>>({});
+  const [answerList, setAnswerList] = useState<AnswerItemType[]>([]);
 
   /**创建答案**/
   const createAnswers = async () => {
@@ -18,7 +18,7 @@ export const useQuestion = () => {
     }
     if (info.id && answer.content) {
       const result = await createAnswer({ content: answer.content, id: info.id });
-      if (result.code === 200) {
+      if (result.code === 1) {
         // 创建成功
       }
     }
@@ -40,7 +40,7 @@ export const useQuestion = () => {
     }
     if (info.type && answer.content && info.title) {
       const result = await createQuestion({ title: info.title, content: info.content, type: info.type });
-      if (result.code === 200) {
+      if (result.code === 1) {
         // 创建成功
       }
     }
@@ -50,7 +50,7 @@ export const useQuestion = () => {
   const getAnswer = async () => {
     if (params.id) {
       const result = await getAnswerList({ id: params.id });
-      if (result.code === 200) {
+      if (result.code === 1) {
         setAnswerList(result.data || []);
       }
     }
@@ -60,7 +60,7 @@ export const useQuestion = () => {
   const getInfo = async () => {
     if (params.id) {
       const result = await getQuestionInfo({ id: params.id });
-      if (result.code === 200) {
+      if (result.code === 1) {
         setInfo(result.data || {});
       }
     }

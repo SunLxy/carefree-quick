@@ -4,14 +4,14 @@ export interface ListItemType {
   /**标题*/
   title: string;
   /**类型*/
-  type: string[];
+  type: string;
   /**创建时间*/
   createTime?: string;
   /**问题说明**/
   content: string;
 }
 
-export interface QuestionItemType {
+export interface AnswerItemType {
   /**答案**/
   content: string;
   /**创建时间*/

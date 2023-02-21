@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { QuestionItemType, ListItemType, PageType, ReturnType, ListReturn, QuestionParamsType } from '../interface';
+import { AnswerItemType, ListItemType, PageType, ReturnType, ListReturn, QuestionParamsType } from '../interface';
 
 const request = async <T, K>(url: string, params: T) => {
   return axios.post<K>(url, params, { responseType: 'json' }).then((response) => response.data);
@@ -22,10 +22,10 @@ export const getQuestionInfo = async (params: QuestionParamsType) => {
 
 /**查询题目答案*/
 export const getAnswerList = async (params: QuestionParamsType) => {
-  return request<QuestionParamsType, ReturnType<QuestionItemType[]>>('/api/answer/list', params);
+  return request<QuestionParamsType, ReturnType<AnswerItemType[]>>('/api/answer/list', params);
 };
 
 /**创建题目答案*/
-export const createAnswer = async (params: QuestionItemType) => {
-  return request<QuestionItemType, ReturnType>('/api/answer/create', params);
+export const createAnswer = async (params: AnswerItemType) => {
+  return request<AnswerItemType, ReturnType>('/api/answer/create', params);
 };

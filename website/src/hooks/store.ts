@@ -1,14 +1,15 @@
-import React, { useContext, createContext, createElement } from 'react';
+import React, { useContext, createContext, createElement, useEffect } from 'react';
 import { getQuestionList } from '@/services';
 export interface Store {
+  keyword?: string;
   /**列表数据*/
-  dataList?: any[];
+  dataList: any[];
   /**当前页*/
-  page?: number;
+  page: number;
   /**每页数*/
-  pageSize?: number;
+  pageSize: number;
   /**总数*/
-  total?: number;
+  total: number;
   /**题目类型*/
   type?: string;
   loading?: boolean;
@@ -36,7 +37,7 @@ const StoreContext = createContext<StoreContextType>({
   getList: async () => null,
 });
 
-export const reducer = (store: Partial<Store>, action: Partial<Store>) => {
+export const reducer = (store: Store, action: Partial<Store>) => {
   return {
     ...store,
     ...action,
@@ -56,17 +57,22 @@ export const Provider = (props: ProviderProps) => {
       pageSize: newStore.pageSize || 20,
       type: newStore.type,
     };
-    dispatch({ ...newStore, loading: true });
+    dispatch({ ...newStore, ...newParams, loading: true });
     try {
       const result = await getQuestionList(newParams);
       // 查询成功
-      if (result.code === 200) {
+      if (result.code === 1) {
         dispatch({ dataList: result.data.rows || [], total: result.data.total || 0, loading: false });
       }
     } catch (err) {
       dispatch({ loading: false });
     }
   };
+
+  useEffect(() => {
+    getList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return createElement(StoreContext.Provider, {
     value: { store, dispatch, getList },
