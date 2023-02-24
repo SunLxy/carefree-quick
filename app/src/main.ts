@@ -20,7 +20,8 @@ export class Main extends BrowserWindowStore {
     if (process.env.NODE_ENV === 'development') {
       mainWindow.loadURL('http://localhost:3000');
     } else {
-      mainWindow.loadFile(path.join(__dirname, '../website/build/index.html'));
+      mainWindow.loadFile(path.join(__dirname, './../website/index.html'));
+      mainWindow.webContents.openDevTools();
     }
   }
 }

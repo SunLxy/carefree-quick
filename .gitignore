@@ -5,12 +5,13 @@ dist
 # !dist/latest-mac.yml
 # !dist/*.dmg
 # !dist/*.zip
+lib
+app/website
 
 package-lock.json
 **/.DS_Store
 /.DS_Store
 .DS_Store
 out/
-app/
 
 .kktp/

@@ -1,0 +1,61 @@
+{
+  "name": "carefree-quick",
+  "version": "0.0.0",
+  "private": true,
+  "author": "SunLxy <1011771396@qq.com>",
+  "main": "./lib/main.js",
+  "repository": "https://github.com/SunLxy/carefree-quick",
+  "scripts": {
+    "postinstalls": "electron-builder install-app-deps",
+    "build": "carefree-c build --disable-babel -e src -o lib",
+    "app": "npm run build && cross-env NODE_ENV=development electron ./lib/main.js",
+    "app:pro": "npm run build && cross-env NODE_ENV=production electron ./lib/main.js",
+    "-------": "----------------------build-----------------------------------",
+    "make": "cross-env NODE_ENV=production electron-builder build",
+    "build:app": "npm run build && npm run make"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+    "electron-store": "~8.1.0",
+    "carefree-xterm-server": "~1.0.10",
+    "node-pty": "0.11.0-beta23"
+  },
+  "devDependencies": {
+    "electron-rebuild": "~3.2.9",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
+    "cross-env": "7.0.3",
+    "electron": "22.0.0-beta.3",
+    "electron-builder": "24.0.0-alpha.11",
+    "typescript": "4.7.4",
+    "carefree-c": "^1.0.9"
+  },
+  "workspaces": {
+    "packages": [
+      "website"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "*.{js,jsx,ts,tsx,less,md,json}": [
+      "prettier --write"
+    ]
+  },
+  "build": {
+    "productName": "quick",
+    "appId": "carefree.quick.dir",
+    "asar": false,
+    "mac": {
+      "target": {
+        "target": "default",
+        "arch": [
+          "arm64",
+          "x64"
+        ]
+      }
+    }
+  }
+}
