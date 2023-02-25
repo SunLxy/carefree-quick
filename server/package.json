@@ -1,0 +1,31 @@
+{
+   "name": "carefree-quick-server",
+   "version": "0.0.0",
+   "description": "",
+   "main": "lib/index.js",
+   "types": "lib/index.d.ts",
+   "files": [
+      "lib"
+   ],
+   "devDependencies": {
+      "carefree-c": "^1.0.9",
+      "ts-node": "10.7.0",
+      "@types/node": "^18.14.1",
+      "typescript": "4.9.5",
+      "@types/express": "~4.17.17",
+      "@types/body-parser": "~1.19.2",
+      "@types/mongodb": "~4.0.7"
+   },
+   "dependencies": {
+      "typeorm": "0.3.12",
+      "reflect-metadata": "^0.1.13",
+      "mongodb": "^3.0.8",
+      "express": "^4.17.2",
+      "body-parser": "^1.19.1"
+   },
+   "scripts": {
+      "start": "node ./script/index.js && ts-node src/ci.ts",
+      "build": "node ./script/index.js && carefree-c build --disable-babel -e src -o lib",
+      "typeorm": "typeorm-ts-node-commonjs"
+   }
+}

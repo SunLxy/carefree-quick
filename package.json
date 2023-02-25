@@ -10,10 +10,12 @@
     "app": "npm run-script app --workspace carefree-quick",
     "app:pro": "npm run-script app:pro --workspace carefree-quick",
     "start": "npm run-script start --workspace carefree-quick-web",
+    "server": "npm run-script start --workspace carefree-quick-server",
     "-------": "----------------------build-----------------------------------",
+    "build:server": "npm run-script build --workspace carefree-quick-server",
     "build:website": "npm run-script build --workspace carefree-quick-web",
     "make": "npm run-script build:app --workspace carefree-quick",
-    "build:app": "npm run build:website && npm run copy && npm run make"
+    "build": "npm run build:website && npm run copy && npm run build:server && npm run make"
   },
   "keywords": [],
   "license": "ISC",
@@ -29,7 +31,8 @@
   "workspaces": {
     "packages": [
       "website",
-      "app"
+      "app",
+      "server"
     ]
   },
   "lint-staged": {

@@ -7,25 +7,25 @@ const request = async <T, K>(url: string, params: T) => {
 
 /**查询题目*/
 export const getQuestionList = async (params: PageType) => {
-  return request<PageType, ReturnType<ListReturn>>('/api/question/list', params);
+  return request<PageType, ReturnType<ListReturn>>('/quick://api/question/list', params);
 };
 
 /**创建题目*/
 export const createQuestion = async (params: ListItemType) => {
-  return request<ListItemType, ReturnType>('/api/question/create', params);
+  return request<ListItemType, ReturnType>('/quick://api/question/create', params);
 };
 
 /**查询题目详情*/
 export const getQuestionInfo = async (params: QuestionParamsType) => {
-  return request<QuestionParamsType, ReturnType<ListItemType>>('/api/question/info', params);
+  return request<QuestionParamsType, ReturnType<ListItemType>>('/quick://api/question/info', params);
 };
 
 /**查询题目答案*/
 export const getAnswerList = async (params: QuestionParamsType) => {
-  return request<QuestionParamsType, ReturnType<AnswerItemType[]>>('/api/answer/list', params);
+  return request<QuestionParamsType, ReturnType<AnswerItemType[]>>('quick://api/answer/list', params);
 };
 
 /**创建题目答案*/
 export const createAnswer = async (params: AnswerItemType) => {
-  return request<AnswerItemType, ReturnType>('/api/answer/create', params);
+  return request<AnswerItemType, ReturnType>('/quick://api/answer/create', params);
 };

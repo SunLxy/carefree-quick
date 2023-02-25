@@ -14,10 +14,11 @@ export default {
   },
   proxySetup: (app: express.Application) => {
     app.use(
-      '/api',
+      '/quick://',
       createProxyMiddleware({
         target: 'http://localhost:8063',
         changeOrigin: true,
+        pathRewrite: { '^/quick:/': '/' },
       }),
     );
   },

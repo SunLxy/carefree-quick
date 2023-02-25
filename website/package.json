@@ -6,6 +6,9 @@
     "start": "kktp start --no-open-browser",
     "build": "GENERATE_SOURCEMAP=false kktp build"
   },
+  "files": [
+    "build"
+  ],
   "dependencies": {
     "carefree-xterm-web": "~1.0.10",
     "styled-components": "^5.3.5",

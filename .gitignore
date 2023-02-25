@@ -13,5 +13,7 @@ package-lock.json
 /.DS_Store
 .DS_Store
 out/
+server/src/data.ts
+
 
 .kktp/
