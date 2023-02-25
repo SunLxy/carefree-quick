@@ -15,7 +15,8 @@
     "build:server": "npm run-script build --workspace carefree-quick-server",
     "build:website": "npm run-script build --workspace carefree-quick-web",
     "make": "npm run-script build:app --workspace carefree-quick",
-    "build": "npm run build:website && npm run copy && npm run build:server && npm run make"
+    "build:sw": "npm run build:website && npm run copy && npm run build:server",
+    "build": "npm run build:sw && npm run make"
   },
   "keywords": [],
   "license": "ISC",
