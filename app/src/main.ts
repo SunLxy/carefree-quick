@@ -20,12 +20,11 @@ export class Main extends BrowserWindowStore {
     const result = await startServer();
     if (result === true) {
       this.win = mainWindow;
-      // if (process.env.NODE_ENV === 'development') {
-      //   mainWindow.loadURL('http://localhost:3000');
-      // } else {
-      mainWindow.loadFile(path.join(__dirname, './../website/index.html'));
-      mainWindow.webContents.openDevTools();
-      // }
+      if (process.env.NODE_ENV === 'development') {
+        mainWindow.loadURL('http://localhost:3000');
+      } else {
+        mainWindow.loadFile(path.join(__dirname, './../website/index.html'));
+      }
     } else {
       dialog.showErrorBox('服务启动错误提示', JSON.stringify(result));
     }
