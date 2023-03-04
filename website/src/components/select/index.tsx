@@ -39,7 +39,7 @@ const Select = forwardRef<HTMLSelectElement, PropsWithoutRef<SelectProps>>((prop
   }, [options]);
   return (
     <SelectBase {...rest} ref={ref}>
-      {isAll && <SelectOptionBase>全部</SelectOptionBase>}
+      {isAll && <SelectOptionBase value="">全部</SelectOptionBase>}
       {optionRender}
     </SelectBase>
   );
