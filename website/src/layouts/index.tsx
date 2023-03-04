@@ -8,7 +8,9 @@ interface LayoutsProps {
 
 const LayoutsWarp = styled.div`
   margin: auto;
-  width: 1024px;
+  max-width: 1024px;
+  min-width: 350px;
+  padding: 10px 20px;
 `;
 
 const Layouts = (props: LayoutsProps) => {

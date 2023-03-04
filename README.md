@@ -14,6 +14,7 @@
 ### 开发
 
 ```bash
+$ npm run server # 启动服务端
 $ npm run start # 启动渲染层服务
 $ npm run app # 启动主程序
 ```
@@ -21,5 +22,5 @@ $ npm run app # 启动主程序
 ### 打包
 
 ```bash
-$ npm run build:app
+$ npm run build
 ```
