@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { AnswerItemType, ListItemType } from '../interface';
-
 import { getAnswerList, getQuestionInfo, createQuestion, createAnswer } from '@/services';
 import { useState } from 'react';
 
 export const useQuestion = () => {
   const params = useParams<{ id: string }>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [loading2, setLoading2] = useState<boolean>(false);
   const [info, setInfo] = useState<Partial<ListItemType>>({});
   const [answer, setAnswer] = useState<Partial<AnswerItemType>>({});
   const [answerList, setAnswerList] = useState<AnswerItemType[]>([]);
@@ -79,15 +79,15 @@ export const useQuestion = () => {
   const getInfo = async () => {
     try {
       if (params.id) {
-        setLoading(true);
+        setLoading2(true);
         const result = await getQuestionInfo({ id: params.id });
-        setLoading(false);
+        setLoading2(false);
         if (result.code === 1) {
           setInfo(result.data || {});
         }
       }
     } catch (err) {
-      setLoading(false);
+      setLoading2(false);
     }
   };
 
@@ -103,6 +103,7 @@ export const useQuestion = () => {
 
   return {
     loading,
+    loading2,
     info,
     answer,
     answerList,

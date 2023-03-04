@@ -46,11 +46,13 @@ const ListItemTime = styled.div`
 
 interface ListItemProps {
   rowItem: ListItemType;
+  onClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
 }
 
 function ListItem(props: ListItemProps) {
+  const { onClick } = props;
   return (
-    <ListItemWarp>
+    <ListItemWarp onClick={onClick}>
       <ListItemTitle>标题</ListItemTitle>
       <ListItemBody>内容</ListItemBody>
       <ListItemFooter>

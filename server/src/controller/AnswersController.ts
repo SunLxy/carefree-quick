@@ -96,24 +96,61 @@ export class AnswersController {
   }
   /**删除*/
   async delete(request: Request, response: Response) {
-    const id = request.body.id;
-    const answerToRemove = await this.answerRepository.findOneBy({ id });
-    let jsonData = {};
+    try {
+      const id = request.body.id;
+      const answerToRemove = await this.answerRepository.findOneBy({ id });
+      let jsonData = {};
 
-    if (!answerToRemove) {
-      jsonData = {
-        data: undefined,
-        code: -1,
-        message: '未找到需删除数据',
-      };
-    } else {
-      const result = await this.answerRepository.remove(answerToRemove);
-      jsonData = {
-        data: result,
-        code: 1,
-        message: '删除成功',
-      };
+      if (!answerToRemove) {
+        jsonData = {
+          data: undefined,
+          code: -1,
+          message: '未找到需删除数据',
+        };
+      } else {
+        const result = await this.answerRepository.remove(answerToRemove);
+        jsonData = {
+          data: result,
+          code: 1,
+          message: '删除成功',
+        };
+      }
+      response.status(200).json(jsonData);
+    } catch (err) {
+      console.log(err.message);
+      response.status(400).json({
+        code: -2,
+        message: err,
+      });
     }
-    response.status(200).json(jsonData);
+  }
+  // 更新
+  async update(request: Request, response: Response) {
+    try {
+      const id = request.body.id;
+      const answerToUpdate = await this.answerRepository.findOne(id);
+      let jsonData = {};
+      if (!answerToUpdate) {
+        jsonData = {
+          data: undefined,
+          code: -1,
+          message: '未找到需更新数据',
+        };
+      } else {
+        const result = await this.answerRepository.update(id, { ...answerToUpdate, ...request.body });
+        jsonData = {
+          data: result,
+          code: 1,
+          message: '修改成功',
+        };
+      }
+      response.status(200).json(jsonData);
+    } catch (err) {
+      console.log(err.message);
+      response.status(400).json({
+        code: -2,
+        message: err,
+      });
+    }
   }
 }

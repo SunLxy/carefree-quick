@@ -39,9 +39,7 @@ export class QuestionsController {
   async info(request: Request<Questions>, response: Response) {
     try {
       const { id } = request.body;
-      const question = await this.questionRepository.findOne({
-        where: { id },
-      });
+      const question = await this.questionRepository.findOne(id);
       let jsonData = {};
       if (!question) {
         jsonData = {
@@ -99,24 +97,60 @@ export class QuestionsController {
   }
   /**删除*/
   async delete(request: Request, response: Response) {
-    const id = request.body.id;
-    const questionToRemove = await this.questionRepository.findOneBy({ id });
-    let jsonData = {};
-
-    if (!questionToRemove) {
-      jsonData = {
-        data: undefined,
-        code: -1,
-        message: '未找到需删除数据',
-      };
-    } else {
-      const result = await this.questionRepository.remove(questionToRemove);
-      jsonData = {
-        data: result,
-        code: 1,
-        message: '删除成功',
-      };
+    try {
+      const id = request.body.id;
+      const questionToRemove = await this.questionRepository.findOne(id);
+      let jsonData = {};
+      if (!questionToRemove) {
+        jsonData = {
+          data: undefined,
+          code: -1,
+          message: '未找到需删除数据',
+        };
+      } else {
+        const result = await this.questionRepository.remove(questionToRemove);
+        jsonData = {
+          data: result,
+          code: 1,
+          message: '删除成功',
+        };
+      }
+      response.status(200).json(jsonData);
+    } catch (err) {
+      console.log(err.message);
+      response.status(400).json({
+        code: -2,
+        message: err,
+      });
     }
-    response.status(200).json(jsonData);
+  }
+  // 更新
+  async update(request: Request, response: Response) {
+    try {
+      const id = request.body.id;
+      const questionToUpdate = await this.questionRepository.findOne(id);
+      let jsonData = {};
+      if (!questionToUpdate) {
+        jsonData = {
+          data: undefined,
+          code: -1,
+          message: '未找到需更新数据',
+        };
+      } else {
+        const result = await this.questionRepository.update(id, { ...questionToUpdate, ...request.body });
+        jsonData = {
+          data: result,
+          code: 1,
+          message: '修改成功',
+        };
+      }
+      response.status(200).json(jsonData);
+    } catch (err) {
+      console.log(err.message);
+      response.status(400).json({
+        code: -2,
+        message: err,
+      });
+    }
   }
 }

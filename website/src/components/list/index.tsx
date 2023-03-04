@@ -7,14 +7,16 @@ const ListWarp = styled.div``;
 
 export interface ListProps {
   dataList: ListItemType[];
+  onClick?: (rowItem: ListItemType) => void;
 }
 
 const List = (props: ListProps) => {
-  const { dataList } = props;
+  const { dataList, onClick = () => {} } = props;
   const render = useMemo(() => {
     return dataList.map((item, index) => {
-      return <ListItem key={index} rowItem={item} />;
+      return <ListItem onClick={() => onClick(item)} key={index} rowItem={item} />;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataList]);
   return <ListWarp>{render}</ListWarp>;
 };
