@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from '@/components/button';
 
 interface PaginationProps {
   page: number;
@@ -13,13 +14,9 @@ const PaginationWarp = styled.div`
   justify-content: center;
   padding: 10px 20px;
 `;
-const ComPage = styled.button`
-  height: 30px;
-  padding: 3px 10px;
-  box-sizing: border-box;
-`;
-const Pre = styled(ComPage)``;
-const Next = styled(ComPage)``;
+
+const Pre = styled(Button)``;
+const Next = styled(Button)``;
 const Conter = styled.span`
   margin: 0px 15px;
 `;
@@ -34,13 +31,13 @@ const Pagination = (props: PaginationProps) => {
   const onNext = () => onChange && onChange(page + 1, pageSize);
   return (
     <PaginationWarp>
-      <Pre onClick={onPre} disabled={page === 1}>
+      <Pre size="sm" onClick={onPre} disabled={page === 1}>
         上一页
       </Pre>
       <Conter>
         {page}/{sumPage}
       </Conter>
-      <Next onClick={onNext} disabled={page === sumPage || total === 0}>
+      <Next size="sm" onClick={onNext} disabled={page === sumPage || total === 0}>
         下一页
       </Next>
     </PaginationWarp>

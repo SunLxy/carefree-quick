@@ -24,7 +24,7 @@ export const getQuestionInfo = async (params: QuestionParamsType) => {
 
 /**查询题目答案*/
 export const getAnswerList = async (params: QuestionParamsType) => {
-  return request<QuestionParamsType, ReturnType<AnswerItemType[]>>(`${PRE_HTTP}api/answer/list`, params);
+  return request<QuestionParamsType, ReturnType<ListReturn<AnswerItemType>>>(`${PRE_HTTP}api/answer/list`, params);
 };
 
 /**创建题目答案*/

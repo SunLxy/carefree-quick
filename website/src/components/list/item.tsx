@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { ListItemType } from '../../interface';
+import { utc2beijing } from '@/utils';
 
 const ListItemWarp = styled.div`
   box-sizing: border-box;
@@ -50,14 +51,14 @@ interface ListItemProps {
 }
 
 function ListItem(props: ListItemProps) {
-  const { onClick } = props;
+  const { onClick, rowItem } = props;
   return (
-    <ListItemWarp onClick={onClick}>
-      <ListItemTitle>标题</ListItemTitle>
-      <ListItemBody>内容</ListItemBody>
+    <ListItemWarp onDoubleClick={onClick}>
+      <ListItemTitle>{rowItem.title}</ListItemTitle>
+      <ListItemBody>{rowItem.content}</ListItemBody>
       <ListItemFooter>
-        <ListItemLabel>标签</ListItemLabel>
-        <ListItemTime>2022-12-12 12:12:12</ListItemTime>
+        <ListItemLabel>{rowItem.type}</ListItemLabel>
+        <ListItemTime>创建时间：{rowItem.createTime && utc2beijing(rowItem.createTime)}</ListItemTime>
       </ListItemFooter>
     </ListItemWarp>
   );

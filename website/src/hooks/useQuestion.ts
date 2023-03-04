@@ -1,15 +1,79 @@
-import { useParams } from 'react-router-dom';
+import React from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { AnswerItemType, ListItemType } from '../interface';
 import { getAnswerList, getQuestionInfo, createQuestion, createAnswer } from '@/services';
-import { useState } from 'react';
+export interface Store {
+  /**答案列表数据*/
+  dataList: AnswerItemType[];
+  /**当前页*/
+  page: number;
+  /**每页数*/
+  pageSize: number;
+  /**总数*/
+  total: number;
+  loading?: boolean;
+  loading2?: boolean;
+  info: Partial<ListItemType>;
+  answer: Partial<AnswerItemType>;
+}
+
+const InitalStore: Store = {
+  dataList: [],
+  pageSize: 20,
+  page: 1,
+  total: 0,
+  info: {},
+  answer: {},
+};
+
+export const reducer = (store: Store, action: Partial<Store>) => {
+  return {
+    ...store,
+    ...action,
+  };
+};
 
 export const useQuestion = () => {
   const params = useParams<{ id: string }>();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [loading2, setLoading2] = useState<boolean>(false);
-  const [info, setInfo] = useState<Partial<ListItemType>>({});
-  const [answer, setAnswer] = useState<Partial<AnswerItemType>>({});
-  const [answerList, setAnswerList] = useState<AnswerItemType[]>([]);
+  const navigate = useNavigate();
+
+  const [store, dispatch] = React.useReducer(reducer, { ...InitalStore });
+  const { answer, info } = store;
+
+  /**获取答案*/
+  const getAnswer = async (page: number, pageSize: number) => {
+    try {
+      if (params.id) {
+        dispatch({ loading: true, page, pageSize });
+        const result = await getAnswerList({ id: params.id, page, pageSize });
+        dispatch({ loading: false });
+        if (result.code === 1) {
+          dispatch({
+            dataList: result.data.rows || [],
+            total: result.data.total || 0,
+          });
+        }
+      }
+    } catch (err) {
+      dispatch({ loading: false });
+    }
+  };
+
+  /**获取题目详情**/
+  const getInfo = async () => {
+    try {
+      if (params.id) {
+        dispatch({ loading2: true });
+        const result = await getQuestionInfo({ id: params.id });
+        dispatch({ loading2: false });
+        if (result.code === 1) {
+          dispatch({ info: result.data || {} });
+        }
+      }
+    } catch (err) {
+      dispatch({ loading2: false });
+    }
+  };
 
   /**创建答案**/
   const createAnswers = async () => {
@@ -19,15 +83,17 @@ export const useQuestion = () => {
         return;
       }
       if (info.id && answer.content) {
-        setLoading(true);
+        dispatch({ loading: true });
         const result = await createAnswer({ content: answer.content, id: info.id });
-        setLoading(false);
+        dispatch({ loading: false });
         if (result.code === 1) {
           // 创建成功
+          dispatch({ answer: { content: '' } });
+          getAnswer(1, store.pageSize);
         }
       }
     } catch (err) {
-      setLoading(false);
+      dispatch({ loading: false });
     }
   };
 
@@ -47,66 +113,35 @@ export const useQuestion = () => {
         return;
       }
       if (info.type && answer.content && info.title) {
-        setLoading(true);
+        dispatch({ loading: true });
         const result = await createQuestion({ title: info.title, content: info.content, type: info.type });
-        setLoading(false);
+        dispatch({ loading: false });
         if (result.code === 1) {
           // 创建成功
         }
       }
     } catch (err) {
-      setLoading(false);
+      dispatch({ loading: false });
     }
   };
-
-  /**获取答案*/
-  const getAnswer = async () => {
-    try {
-      if (params.id) {
-        setLoading(true);
-        const result = await getAnswerList({ id: params.id });
-        setLoading(false);
-        if (result.code === 1) {
-          setAnswerList(result.data || []);
-        }
-      }
-    } catch (err) {
-      setLoading(false);
-    }
-  };
-
-  /**获取题目详情**/
-  const getInfo = async () => {
-    try {
-      if (params.id) {
-        setLoading2(true);
-        const result = await getQuestionInfo({ id: params.id });
-        setLoading2(false);
-        if (result.code === 1) {
-          setInfo(result.data || {});
-        }
-      }
-    } catch (err) {
-      setLoading2(false);
-    }
-  };
-
   /**创建题目更新值**/
   const onQuestionChange = (value: Partial<ListItemType>) => {
-    setInfo((pre) => ({ ...pre, value }));
+    dispatch({ info: { ...store.info, ...value } });
   };
 
   /**创建答案更新值**/
   const onAnswerChange = (value: Partial<ListItemType>) => {
-    setAnswer((pre) => ({ ...pre, value }));
+    dispatch({ answer: { ...store.answer, ...value } });
   };
 
+  const onBack = () => navigate(-1);
+
+  const onChangePage = () => {};
+
   return {
-    loading,
-    loading2,
-    info,
-    answer,
-    answerList,
+    ...store,
+    onChangePage,
+    onBack,
     createAnswers,
     createQuestions,
     getAnswer,

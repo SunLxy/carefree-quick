@@ -18,6 +18,7 @@ export class QuestionsController {
         where,
         skip: skip,
         take: pageSize,
+        order: { createTime: 'DESC' },
       });
       const jsonData = {
         data: {

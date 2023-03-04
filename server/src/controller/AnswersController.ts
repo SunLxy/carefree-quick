@@ -7,17 +7,18 @@ export class AnswersController {
   private answerRepository = AppDataSource.getRepository(Answers);
   /**分页查询*/
   async list(request: Request, response: Response) {
-    const { page = 1, pageSize = 20, questionId } = request.body;
+    const { page = 1, pageSize = 20, id } = request.body;
     const skip = (page - 1) * pageSize;
     try {
       let where: FindOptionsWhere<Answers> = {};
-      if (questionId) {
-        where = { questionId };
+      if (id) {
+        where = { questionId: id };
       }
       const [value, total] = await this.answerRepository.findAndCount({
         where,
         skip: skip,
         take: pageSize,
+        order: { createTime: 'DESC' },
       });
       response.status(200).json({
         data: {
@@ -65,10 +66,10 @@ export class AnswersController {
   }
   /**创建*/
   async create(request: Request, response: Response) {
-    const { content, questionId } = request.body;
+    const { content, id } = request.body;
     try {
       const question = Object.assign(new Answers(), {
-        questionId,
+        questionId: id,
         content,
       });
       const result = await this.answerRepository.save(question);

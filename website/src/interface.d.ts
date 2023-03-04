@@ -35,11 +35,15 @@ export interface ReturnType<T = any> {
   message: string;
 }
 
-export interface ListReturn {
-  rows: any[];
+export interface ListReturn<T = any> {
+  rows: T[];
   total: number;
 }
 
 export interface QuestionParamsType {
   id: string;
+  /**当前页*/
+  page?: number;
+  /**每页个数*/
+  pageSize?: number;
 }

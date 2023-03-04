@@ -6,6 +6,7 @@ import Pagination from '@/components/pagination';
 import Search from '@/components/search';
 import { throttle } from '@/utils';
 import { ListItemType } from '@/interface';
+import Position from '@/components/position';
 
 const IndexWarp = styled.div``;
 
@@ -29,7 +30,9 @@ const Index = () => {
     <IndexWarp>
       <Search onChange={onSearch} />
       <List dataList={store.dataList} onClick={onClick} />
-      <Pagination page={store.page} pageSize={store.pageSize} total={store.total} onChange={onChange} />
+      <Position bottom="20px" right="15px">
+        <Pagination page={store.page} pageSize={store.pageSize} total={store.total} onChange={onChange} />
+      </Position>
     </IndexWarp>
   );
 };
