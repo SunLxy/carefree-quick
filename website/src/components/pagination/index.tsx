@@ -26,11 +26,12 @@ const Conter = styled.span`
 
 const Pagination = (props: PaginationProps) => {
   const { page, pageSize, total, onChange } = props;
+  if (!total) {
+    return <React.Fragment />;
+  }
   const sumPage = Math.ceil(total / pageSize);
-
   const onPre = () => onChange && onChange(page + 1, pageSize);
   const onNext = () => onChange && onChange(page - 1, pageSize);
-
   return (
     <PaginationWarp>
       <Pre onClick={onPre} disabled={page === 1}>
