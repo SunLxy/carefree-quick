@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { dictType } from '@/utils/dict';
+import Button from '../button';
+import Select from '../select';
+import Input from '../input';
 
 const SearchWarp = styled.div`
   width: 100%;
@@ -10,16 +14,29 @@ const SearchWarp = styled.div`
   box-sizing: border-box;
 `;
 
-const SearchInput = styled.input`
-  border: 1px solid #ccc;
-  border-radius: 35px;
+const SearchInput = styled(Input)`
   height: 35px;
-  width: 88%;
-  box-sizing: border-box;
+  width: 70%;
   padding: 0 17px;
   font-size: 18px;
-  color: #bbb;
+  border-left: 0px;
+  border-right: 0px;
   text-align: center;
+  border-radius: 0px;
+`;
+
+const SelectBase = styled(Select)`
+  border-top-left-radius: 35px;
+  border-bottom-left-radius: 35px;
+`;
+
+const SearchButton = styled(Button)`
+  border-top-right-radius: 35px;
+  border-bottom-right-radius: 35px;
+  height: 35px;
+  border: 1px solid #ccc;
+  background: none;
+  width: 100px;
   ::placeholder {
     color: #ccc;
     font-size: 14px;
@@ -33,31 +50,19 @@ const SearchInput = styled.input`
 
 interface SearchProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   value?: string;
-  onChange?: (value: string) => void;
+  onSearch?: (item: { type: string; keyword: string }) => void;
 }
 
 const Search = (props: SearchProps) => {
-  const { value = '', onChange, className = '', ...rest } = props;
-  const [current, setCurrent] = useState(value);
-
-  const newCurrentValue = Reflect.has(props, value) ? value : current;
-
-  const onValueChange = (newValue: string) => {
-    if (onChange) {
-      onChange(newValue);
-    }
-    if (!Reflect.has(props, value)) {
-      setCurrent(newValue);
-    }
-  };
+  const { onSearch = () => {}, className = '', ...rest } = props;
+  const [current, setCurrent] = useState<string>('');
+  const [type, setType] = useState('');
 
   return (
     <SearchWarp className={`c-search ${className}`} {...rest}>
-      <SearchInput
-        placeholder="请输入查询值"
-        value={newCurrentValue}
-        onChange={(event) => onValueChange(event.target.value)}
-      />
+      <SelectBase value={type} onChange={(event) => setType(event.target.value)} options={dictType} />
+      <SearchInput placeholder="请输入查询值" value={current} onChange={(event) => setCurrent(event.target.value)} />
+      <SearchButton onClick={() => onSearch({ type, keyword: current })}>查询</SearchButton>
     </SearchWarp>
   );
 };

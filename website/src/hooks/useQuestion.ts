@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AnswerItemType, ListItemType } from '../interface';
 import { getAnswerList, getQuestionInfo, createQuestion, createAnswer } from '@/services';
+import { useStore } from './store';
 export interface Store {
   /**答案列表数据*/
   dataList: AnswerItemType[];
@@ -36,9 +37,14 @@ export const reducer = (store: Store, action: Partial<Store>) => {
 export const useQuestion = () => {
   const params = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const {
+    store: { pageSize },
+    getList,
+  } = useStore();
 
   const [store, dispatch] = React.useReducer(reducer, { ...InitalStore });
   const { answer, info } = store;
+  const onBack = () => navigate(-1);
 
   /**获取答案*/
   const getAnswer = async (page: number, pageSize: number) => {
@@ -112,12 +118,15 @@ export const useQuestion = () => {
         // 类型未填写
         return;
       }
-      if (info.type && answer.content && info.title) {
+      if (info.type && info.content && info.title) {
         dispatch({ loading: true });
         const result = await createQuestion({ title: info.title, content: info.content, type: info.type });
         dispatch({ loading: false });
+        // 创建成功
         if (result.code === 1) {
-          // 创建成功
+          dispatch({ info: { type: 'javascript' } });
+          getList({ page: 1, pageSize });
+          onBack();
         }
       }
     } catch (err) {
@@ -134,13 +143,8 @@ export const useQuestion = () => {
     dispatch({ answer: { ...store.answer, ...value } });
   };
 
-  const onBack = () => navigate(-1);
-
-  const onChangePage = () => {};
-
   return {
     ...store,
-    onChangePage,
     onBack,
     createAnswers,
     createQuestions,

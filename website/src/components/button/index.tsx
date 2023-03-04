@@ -12,6 +12,7 @@ const ButtonBase = styled.button<ButtonProps>`
   font-size: 14px;
   padding-left: 20px;
   padding-right: 20px;
+  border: 1px solid #ccc;
   ${(props) => {
     const { size } = props;
     if (size === 'sm') {

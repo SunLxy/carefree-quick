@@ -6,7 +6,7 @@ import AnswerList from '@/components/answer-list';
 import Pagination from '@/components/pagination';
 import Button from '@/components/button';
 import Position from '@/components/position';
-
+import TextArea from '@/components/textArea';
 const PostionBody = styled.div`
   top: 10px;
   position: sticky;
@@ -37,28 +37,6 @@ const Footer = styled.div`
 `;
 const InfoBody = styled.div``;
 
-const ReplyTextArea = styled.textarea`
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-  font-size: 16px;
-  padding: 10px;
-  min-width: 100%;
-  max-width: 100%;
-  color: #aaa;
-  min-height: 50px;
-  ::placeholder {
-    color: #ccc;
-    font-size: 14px;
-  }
-  :active,
-  :focus {
-    outline: none;
-    border-color: #87d068;
-  }
-`;
-
 const ViewTitle = styled.div`
   font-weight: 600;
   color: #aaa;
@@ -80,7 +58,6 @@ const Index = () => {
     page,
     pageSize,
     total,
-    onChangePage,
     onBack,
     onAnswerChange,
     answer,
@@ -106,7 +83,7 @@ const Index = () => {
             <Content>{info.content}</Content>
             <Footer>创建时间：{info.createTime}</Footer>
           </InfoBody>
-          <ReplyTextArea
+          <TextArea
             value={answer.content}
             onChange={(event) => onAnswerChange({ content: event.target.value })}
             placeholder="请输入自己的理解"
@@ -121,7 +98,7 @@ const Index = () => {
         </PostionBody>
         <AnswerList dataList={dataList} />
         <Position bottom="20px" right="15px">
-          <Pagination page={page} pageSize={pageSize} total={total} onChange={onChangePage} />
+          <Pagination page={page} pageSize={pageSize} total={total} onChange={getAnswer} />
         </Position>
       </Loading>
     </div>
