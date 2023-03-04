@@ -20,7 +20,7 @@
     "carefree-quick-server": "0.0.0",
     "electron-store": "~8.1.0",
     "carefree-xterm-server": "~1.0.10",
-    "node-pty": "0.11.0-beta23"
+    "node-pty": "0.11.0-beta9"
   },
   "devDependencies": {
     "electron-rebuild": "~3.2.9",
