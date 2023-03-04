@@ -5,6 +5,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 export default {
   publicPath: './',
   initEntery: true,
+  initModel: '@/hooks/store',
   initRoutes: {
     autoRoutes: true,
     outletLayout: '@/layouts',

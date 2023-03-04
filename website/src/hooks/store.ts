@@ -45,7 +45,7 @@ export const reducer = (store: Store, action: Partial<Store>) => {
 };
 export const useStore = () => useContext(StoreContext);
 
-export const Provider = (props: ProviderProps) => {
+const Provider = (props: ProviderProps) => {
   const { children } = props;
   const [store, dispatch] = React.useReducer(reducer, { ...InitalStore });
 
@@ -79,3 +79,4 @@ export const Provider = (props: ProviderProps) => {
     children,
   });
 };
+export default Provider;
