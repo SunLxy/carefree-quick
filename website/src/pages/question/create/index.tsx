@@ -15,6 +15,7 @@ const Title = styled.div`
   font-size: 14px;
   font-weight: 600;
   padding: 3px 0;
+  min-height: 35px;
 `;
 const LayoutBase = styled.div``;
 interface LayoutProps {

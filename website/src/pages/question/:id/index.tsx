@@ -28,6 +28,7 @@ const Title = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  min-height: 35px;
   button {
     position: absolute;
     left: 0;
