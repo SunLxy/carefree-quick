@@ -50,19 +50,27 @@ const SearchButton = styled(Button)`
 
 interface SearchProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   value?: string;
-  onSearch?: (item: { type: string; keyword: string }) => void;
+  onSearch: () => void;
+  item: { type?: string; keyword?: string };
+  onChange: (item: { type?: string; keyword?: string }) => void;
 }
 
 const Search = (props: SearchProps) => {
-  const { onSearch = () => {}, className = '', ...rest } = props;
-  const [current, setCurrent] = useState<string>('');
-  const [type, setType] = useState('');
+  const { item, onSearch = () => {}, className = '', onChange, ...rest } = props;
+
+  const onValuesChanges = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, field: string) => {
+    onChange({ [field]: event.target.value });
+  };
 
   return (
     <SearchWarp className={`c-search ${className}`} {...rest}>
-      <SelectBase value={type} onChange={(event) => setType(event.target.value)} options={dictType} />
-      <SearchInput placeholder="请输入查询值" value={current} onChange={(event) => setCurrent(event.target.value)} />
-      <SearchButton onClick={() => onSearch({ type, keyword: current })}>查询</SearchButton>
+      <SelectBase value={item.type || ''} onChange={(event) => onValuesChanges(event, 'type')} options={dictType} />
+      <SearchInput
+        placeholder="请输入查询值"
+        value={item.keyword || ''}
+        onChange={(event) => onValuesChanges(event, 'keyword')}
+      />
+      <SearchButton onClick={() => onSearch()}>查询</SearchButton>
     </SearchWarp>
   );
 };

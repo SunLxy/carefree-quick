@@ -1,5 +1,7 @@
 import React, { useContext, createContext, createElement, useEffect } from 'react';
 import { getQuestionList } from '@/services';
+import { Toast } from '@/components/toast';
+
 export interface Store {
   keyword?: string;
   /**列表数据*/
@@ -63,8 +65,11 @@ const Provider = (props: ProviderProps) => {
       // 查询成功
       if (result.code === 1) {
         dispatch({ dataList: result.data.rows || [], total: result.data.total || 0, loading: false });
+      } else {
+        Toast.error(result.message);
       }
     } catch (err) {
+      Toast.error((err as any).message);
       dispatch({ loading: false });
     }
   };

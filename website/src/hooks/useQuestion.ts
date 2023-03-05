@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { AnswerItemType, ListItemType } from '../interface';
 import { getAnswerList, getQuestionInfo, createQuestion, createAnswer } from '@/services';
 import { useStore } from './store';
+import { Toast } from '@/components/toast';
+
 export interface Store {
   /**答案列表数据*/
   dataList: AnswerItemType[];
@@ -58,9 +60,12 @@ export const useQuestion = () => {
             dataList: result.data.rows || [],
             total: result.data.total || 0,
           });
+        } else {
+          Toast.error(result.message);
         }
       }
     } catch (err) {
+      Toast.error((err as any).message);
       dispatch({ loading: false });
     }
   };
@@ -74,9 +79,12 @@ export const useQuestion = () => {
         dispatch({ loading2: false });
         if (result.code === 1) {
           dispatch({ info: result.data || {} });
+        } else {
+          Toast.error(result.message);
         }
       }
     } catch (err) {
+      Toast.error((err as any).message);
       dispatch({ loading2: false });
     }
   };
@@ -85,7 +93,8 @@ export const useQuestion = () => {
   const createAnswers = async () => {
     try {
       if (!answer.content) {
-        // 答案内容未填写
+        // 见解内容未填写
+        Toast.warn('见解内容未填写');
         return;
       }
       if (info.id && answer.content) {
@@ -99,6 +108,7 @@ export const useQuestion = () => {
         }
       }
     } catch (err) {
+      Toast.error((err as any).message);
       dispatch({ loading: false });
     }
   };
@@ -108,29 +118,37 @@ export const useQuestion = () => {
     try {
       if (!info.title) {
         // 标题未填写
+        Toast.warn('标题未填写');
         return;
       }
       if (!info.content) {
         // 内容未填写
+        Toast.warn('内容未填写');
         return;
       }
       if (!info.type) {
         // 类型未填写
+        Toast.warn('类型未填写');
         return;
       }
       if (info.type && info.content && info.title) {
         dispatch({ loading: true });
         const result = await createQuestion({ title: info.title, content: info.content, type: info.type });
+
         dispatch({ loading: false });
         // 创建成功
         if (result.code === 1) {
+          Toast.success('新增成功');
           dispatch({ info: { type: 'javascript' } });
           getList({ page: 1, pageSize });
           onBack();
+        } else {
+          Toast.error(result.message);
         }
       }
     } catch (err) {
       dispatch({ loading: false });
+      Toast.error((err as any).message);
     }
   };
   /**创建题目更新值**/

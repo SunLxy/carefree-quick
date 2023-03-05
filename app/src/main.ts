@@ -26,7 +26,7 @@ export class Main extends BrowserWindowStore {
       } else {
         mainWindow.loadFile(path.join(__dirname, './../website/index.html'));
       }
-      // mainWindow.webContents.openDevTools();
+      mainWindow.webContents.openDevTools();
     } else {
       dialog.showErrorBox('服务启动错误提示', JSON.stringify(result));
     }
