@@ -7,20 +7,31 @@ import Pagination from '@/components/pagination';
 import Button from '@/components/button';
 import Position from '@/components/position';
 import TextArea from '@/components/textArea';
+import { utc2beijing } from '@/utils';
+
+const Warp = styled.div`
+  padding-top: 30px;
+`;
+
 const PostionBody = styled.div`
-  top: 10px;
+  top: 30px;
   position: sticky;
   background-color: #fff;
 `;
 
 const Title = styled.div`
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   border-bottom: 1px solid #ccc;
   padding: 5px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  position: relative;
+  button {
+    position: absolute;
+    left: 0;
+  }
 `;
 
 const Content = styled.div`
@@ -70,18 +81,18 @@ const Index = () => {
   }, []);
 
   return (
-    <div>
+    <Warp>
       <Loading loading={loading || loading2}>
         <PostionBody>
           <InfoBody>
             <Title>
-              {info.title}{' '}
+              {info.title}
               <Button size="sm" onClick={onBack}>
                 返回
               </Button>
             </Title>
             <Content>{info.content}</Content>
-            <Footer>创建时间：{info.createTime}</Footer>
+            <Footer>创建时间：{info.createTime && utc2beijing(info.createTime)}</Footer>
           </InfoBody>
           <TextArea
             value={answer.content}
@@ -101,7 +112,7 @@ const Index = () => {
           <Pagination page={page} pageSize={pageSize} total={total} onChange={getAnswer} />
         </Position>
       </Loading>
-    </div>
+    </Warp>
   );
 };
 export default Index;

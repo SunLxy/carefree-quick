@@ -11,7 +11,7 @@ const LayoutsWarp = styled.div`
   margin: auto;
   max-width: 1024px;
   min-width: 350px;
-  padding: 10px 20px;
+  padding: 0px 20px 30px 20px;
 `;
 
 const Layouts = (props: LayoutsProps) => {

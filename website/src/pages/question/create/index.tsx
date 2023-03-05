@@ -8,6 +8,9 @@ import Input from '@/components/input';
 import { dictType } from '@/utils/dict';
 import { useQuestion } from '@/hooks/useQuestion';
 
+const Warp = styled.div`
+  padding-top: 30px;
+`;
 const Title = styled.div`
   font-size: 14px;
   font-weight: 600;
@@ -42,7 +45,7 @@ const PageTitle = styled.div`
   }
 `;
 const Index = () => {
-  const { onBack, onQuestionChange, info, createQuestions } = useQuestion();
+  const { onBack, onQuestionChange, info, createQuestions, loading } = useQuestion();
   const onValuesChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
     field: string,
@@ -57,36 +60,42 @@ const Index = () => {
   }, []);
 
   return (
-    <Loading>
-      <PageTitle>
-        <Button size="sm" onClick={onBack}>
-          返回
-        </Button>
-        <span>新增</span>
-      </PageTitle>
-      <Layout title="标题：">
-        <Input value={info.title || ''} onChange={(event) => onValuesChange(event, 'title')} placeholder="请输入标题" />
-      </Layout>
-      <Layout title="类型：">
-        <Select
-          onChange={(event) => onValuesChange(event, 'type')}
-          isAll={false}
-          value={info.type}
-          placeholder="请选择"
-          options={dictType}
-        />
-      </Layout>
-      <Layout title="内容：">
-        <TextArea
-          onChange={(event) => onValuesChange(event, 'content')}
-          value={info.content}
-          placeholder="请输入内容"
-        />
-      </Layout>
-      <div style={{ textAlign: 'right' }}>
-        <Button onClick={createQuestions}>提交</Button>
-      </div>
-    </Loading>
+    <Warp>
+      <Loading loading={loading}>
+        <PageTitle>
+          <Button size="sm" onClick={onBack}>
+            返回
+          </Button>
+          <span>新增题目</span>
+        </PageTitle>
+        <Layout title="标题：">
+          <Input
+            value={info.title || ''}
+            onChange={(event) => onValuesChange(event, 'title')}
+            placeholder="请输入标题"
+          />
+        </Layout>
+        <Layout title="类型：">
+          <Select
+            onChange={(event) => onValuesChange(event, 'type')}
+            isAll={false}
+            value={info.type}
+            placeholder="请选择"
+            options={dictType}
+          />
+        </Layout>
+        <Layout title="内容：">
+          <TextArea
+            onChange={(event) => onValuesChange(event, 'content')}
+            value={info.content}
+            placeholder="请输入内容"
+          />
+        </Layout>
+        <div style={{ textAlign: 'right' }}>
+          <Button onClick={createQuestions}>提交</Button>
+        </div>
+      </Loading>
+    </Warp>
   );
 };
 export default Index;

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useState } from 'react';
 import { dictType } from '@/utils/dict';
 import Button from '../button';
 import Select from '../select';
@@ -10,8 +9,11 @@ const SearchWarp = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 15px;
+  padding: 30px 15px;
   box-sizing: border-box;
+  position: sticky;
+  top: 0px;
+  background: #fff;
 `;
 
 const SearchInput = styled(Input)`

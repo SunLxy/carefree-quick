@@ -57,7 +57,7 @@ function ListItem(props: ListItemProps) {
       <ListItemTitle>{rowItem.title}</ListItemTitle>
       <ListItemBody>{rowItem.content}</ListItemBody>
       <ListItemFooter>
-        <ListItemLabel>{rowItem.type}</ListItemLabel>
+        <ListItemLabel>标签：{rowItem.type}</ListItemLabel>
         <ListItemTime>创建时间：{rowItem.createTime && utc2beijing(rowItem.createTime)}</ListItemTime>
       </ListItemFooter>
     </ListItemWarp>
