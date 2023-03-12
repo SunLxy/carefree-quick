@@ -26,7 +26,6 @@ export class Portal {
   child?: HTMLDivElement;
   timer?: NodeJS.Timeout;
   root?: ReactDOMClient.Root;
-  constructor() {}
   setOptions(props: PortalProps) {
     this.id = props.id;
     this.children = props.children;
